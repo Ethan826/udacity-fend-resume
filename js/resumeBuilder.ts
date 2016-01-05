@@ -74,9 +74,24 @@ interface Resume {
 
 class ResumePage {
   private resume: Resume;
+  private populateBio: () => void;
+  private populateEducation: () => void;
+  private populateWork: () => void;
+  private populateProjects: () => void;
 
   constructor(input: Resume) {
     this.resume = input;
+    this.populateBio = this.resume.bio.display;
+    this.populateEducation = this.resume.education.display;
+    this.populateWork = this.resume.work.display;
+    this.populateProjects = this.resume.projects.display;
+  }
+
+  populatePage() {
+    this.populateBio();
+    this.populateEducation();
+    this.populateWork();
+    this.populateProjects();
   }
 }
 
@@ -92,8 +107,14 @@ var bio = {
   "welcomeMessage": "Welcome to my resume",
   "skills": ["Python", "TypeScript"],
   "biopic": "http://www.nytimes.com/",
-  "display": function() { }
+  "display": function() {
+  }
 };
+
+// Use a closure to return a function.
+var functionBuilder = function(data: string) {
+  return;
+}
 
 var education = {
   "schools":
@@ -144,3 +165,4 @@ var data = {
 }
 
 var resumePage = new ResumePage(data);
+resumePage.populatePage();

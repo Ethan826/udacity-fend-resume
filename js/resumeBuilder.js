@@ -1,7 +1,17 @@
 var ResumePage = (function () {
     function ResumePage(input) {
         this.resume = input;
+        this.populateBio = this.resume.bio.display;
+        this.populateEducation = this.resume.education.display;
+        this.populateWork = this.resume.work.display;
+        this.populateProjects = this.resume.projects.display;
     }
+    ResumePage.prototype.populatePage = function () {
+        this.populateBio();
+        this.populateEducation();
+        this.populateWork();
+        this.populateProjects();
+    };
     return ResumePage;
 }());
 var bio = {
@@ -16,7 +26,11 @@ var bio = {
     "welcomeMessage": "Welcome to my resume",
     "skills": ["Python", "TypeScript"],
     "biopic": "http://www.nytimes.com/",
-    "display": function () { }
+    "display": function () {
+    }
+};
+var functionBuilder = function (data) {
+    return;
 };
 var education = {
     "schools": [
@@ -62,3 +76,4 @@ var data = {
     projects: projects
 };
 var resumePage = new ResumePage(data);
+resumePage.populatePage();
