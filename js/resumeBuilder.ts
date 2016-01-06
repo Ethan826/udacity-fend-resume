@@ -1,6 +1,10 @@
 /// <reference path="../typings/jquery/jquery.d.ts"/>
 /// <reference path="helper.ts"/>
 
+// ==========================================================================//
+// Interface definitions
+// ==========================================================================//
+
 interface Contacts {
   mobile: string;
   email: string;
@@ -65,12 +69,17 @@ interface Projects {
   display: () => void;
 }
 
+// Compose interfaces into representative of final resume object
 interface Resume {
   bio: Bio;
   education: Education;
   work: Work;
   projects: Projects;
 }
+
+// ==========================================================================//
+// Class defintion
+// ==========================================================================//
 
 class ResumePage {
   private resume: Resume;
@@ -80,17 +89,18 @@ class ResumePage {
   }
 
   private populateBio(): void {
-    $("#header").prepend(HTMLheaderRole.replace("%data%", this.resume.bio.role));
-    $("#header").prepend(HTMLheaderName.replace("%data%", this.resume.bio.name));
-    $("#topContacts").append(HTMLmobile.replace("%data%", this.resume.bio.contacts.mobile));
-    $("#topContacts").append(HTMLemail.replace("%data%", this.resume.bio.contacts.email));
-    $("#topContacts").append(HTMLgithub.replace("%data%", this.resume.bio.contacts.github));
-    $("#topContacts").append(HTMLlocation.replace("%data%", this.resume.bio.contacts.location));
-    $("#header").append(HTMLbioPic.replace("%data%", this.resume.bio.biopic));
-    $("#header").append(HTMLwelcomeMsg.replace("%data%", this.resume.bio.welcomeMessage));
+    var b = this.resume.bio;
+    $("#header").prepend(HTMLheaderRole.replace("%data%", b.role));
+    $("#header").prepend(HTMLheaderName.replace("%data%", b.name));
+    $("#topContacts").append(HTMLmobile.replace("%data%", b.contacts.mobile));
+    $("#topContacts").append(HTMLemail.replace("%data%", b.contacts.email));
+    $("#topContacts").append(HTMLgithub.replace("%data%", b.contacts.github));
+    $("#topContacts").append(HTMLlocation.replace("%data%", b.contacts.location));
+    $("#header").append(HTMLbioPic.replace("%data%", b.biopic));
+    $("#header").append(HTMLwelcomeMsg.replace("%data%", b.welcomeMessage));
     $("#header").append(HTMLskillsStart);
-    for (let skill of this.resume.bio.skills) {
-      $("#skills").append(HTMLskills.replace("%data%", skill));
+    for (let s of b.skills) {
+      $("#skills").append(HTMLskills.replace("%data%", s));
     }
   }
 
@@ -141,14 +151,44 @@ class ResumePage {
     }
   }
 
+  private populateFooter(): void {
+    var cs: Contacts = this.resume.bio.contacts;
+    $("#footerContacts").append(html);
+    for (let c in cs) {
+      var html: string = '<li class="flex-item">' +
+        `<span class="orange-text">${c}</span>` +
+        `<span class="white-text">${cs[c]}</span>` +
+        '</li>'
+      $("#footerContacts").append(html);
+    }
+  }
+
+  // Re-implementation of the hiding declared inline in index.html
+  private hideMissing(): void {
+    if ($(".flex-item").length == 0) {
+      $("#topContacts").hide();
+      $("#lets-connect").hide();
+    }
+    if ($("h1").length == 0) $("#header").hide();
+    if ($(".work-entry").length == 0) $("#workExperience").hide();
+    if ($(".project-entry").length == 0) $("#projects").hide();
+    if ($(".education-entry").length == 0) $("#education").hide();
+    if ($("#map") == null) $("#mapDiv").hide();
+  }
+
   populatePage() {
     this.populateBio();
     this.populateEducation();
     this.populateWork();
     this.populateProjects();
+    this.populateFooter();
+    this.hideMissing();
   }
 }
 
+// ==========================================================================//
+// JS Objects
+// ==========================================================================//
 var bio = {
   "name": "Ethan Kent",
   "role": "Full-Stack Web Developer",
@@ -161,7 +201,7 @@ var bio = {
   "welcomeMessage": "Welcome to my resume",
   "skills": ["Python", "HTML", "CSS", "Clojure", "TypeScript"],
   "biopic": "http://weknowyourdreams.com/images/dog/dog-07.jpg",
-  "display": this.populateBio
+  "display": this.populateBio // "this" is in scope when passed into ResumePage
 };
 
 
@@ -172,7 +212,7 @@ var education = {
       "name": "Harvard Law School",
       "location": "Cambridge, MA",
       "degree": "J.D.",
-      "majors": ["foo", "bar"],
+      "majors": ["Law"],
       "dates": 2011,
       "url": "http://hls.harvard.edu/"
     }, {
@@ -218,6 +258,7 @@ var projects = {
   "display": this.populateProjects
 }
 
+// Compose objects into final combined object
 var data = {
   bio: bio,
   education: education,
