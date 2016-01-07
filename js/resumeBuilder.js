@@ -4,8 +4,8 @@
 // Class defintion
 // ==========================================================================//
 var ResumePage = (function () {
-    function ResumePage(input) {
-        this.resume = input;
+    function ResumePage(resume) {
+        this.resume = resume;
     }
     ResumePage.prototype.populateBio = function () {
         var b = this.resume.bio;
@@ -74,40 +74,35 @@ var ResumePage = (function () {
         var cs = this.resume.bio.contacts;
         $("#footerContacts").append(html);
         for (var c in cs) {
-            var html = '<li class="flex-item">' +
+            var html = "<li class='flex-item'>" +
                 ("<span class=\"orange-text\">" + c + "</span>") +
                 ("<span class=\"white-text\">" + cs[c] + "</span>") +
-                '</li>';
+                "</li>";
             $("#footerContacts").append(html);
         }
     };
     // Re-implementation of the hiding declared inline in index.html
-    ResumePage.prototype.hideMissing = function () {
-        if ($(".flex-item").length == 0) {
-            $("#topContacts").hide();
-            $("#lets-connect").hide();
-        }
-        if ($("h1").length == 0)
-            $("#header").hide();
-        if ($(".work-entry").length == 0)
-            $("#workExperience").hide();
-        if ($(".project-entry").length == 0)
-            $("#projects").hide();
-        if ($(".education-entry").length == 0)
-            $("#education").hide();
-        if ($("#map") == null)
-            $("#mapDiv").hide();
-    };
+    // private hideMissing(): void {
+    //   if ($(".flex-item").length == 0) {
+    //     $("#topContacts").hide();
+    //     $("#lets-connect").hide();
+    //   }
+    //   if ($("h1").length == 0) $("#header").hide();
+    //   if ($(".work-entry").length == 0) $("#workExperience").hide();
+    //   if ($(".project-entry").length == 0) $("#projects").hide();
+    //   if ($(".education-entry").length == 0) $("#education").hide();
+    //   if ($("#map") == null) $("#mapDiv").hide();
+    // }
     ResumePage.prototype.populatePage = function () {
         this.populateBio();
         this.populateEducation();
         this.populateWork();
         this.populateProjects();
         this.populateFooter();
-        this.hideMissing();
+        // this.hideMissing();
     };
     return ResumePage;
-}());
+})();
 // ==========================================================================//
 // JS Objects
 // ==========================================================================//
@@ -122,18 +117,18 @@ var bio = {
     },
     "welcomeMessage": "Welcome to my resume",
     "skills": ["Python", "HTML", "CSS", "Clojure", "TypeScript"],
-    "biopic": "http://weknowyourdreams.com/images/dog/dog-07.jpg",
+    "biopic": "foo",
     "display": this.populateBio // "this" is in scope when passed into ResumePage
 };
 var education = {
     "schools": [
         {
-            "name": "Harvard Law School",
+            "name": "Harletd Law School",
             "location": "Cambridge, MA",
             "degree": "J.D.",
             "majors": ["Law"],
             "dates": 2011,
-            "url": "http://hls.harvard.edu/"
+            "url": "http://hls.harletd.edu/"
         }, {
             "name": "Embry-Riddle Aeronautical University",
             "location": "Daytona Beach, FL",

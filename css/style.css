@@ -1,4 +1,39 @@
-body,
+#header {
+    flex-wrap: wrap;
+}
+
+#name {
+    display: inline;
+}
+
+#role {
+    color: gray;
+    padding: 10px 1em;
+}
+
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-container > .flex-item {
+    -webkit-flex: auto;
+    display: inline-block;
+    padding-right: 1em;
+    padding-left: 1em;
+    text-align: center;
+}
+
+.intro {
+    padding-right: 0.5em;
+}
+
+#skills-h3 {
+    display: inline;
+}
+
+/*body,
 div,
 ul,
 li,
@@ -15,17 +50,13 @@ h6 {
   font-weight: 400;
 }
 
-.clear-fix {
-  overflow: auto;
-}
-
 .education-entry,
 .work-entry,
 .project-entry {
   padding: 0 5%;
 }
-
-h1 {
+*/
+/*h1 {
   font-size: 40px;
   font-weight: 300;
   color: #0b2b47;
@@ -163,7 +194,6 @@ span {
   text-align: center;
 }
 
-/* Media queries to handle various device widths */
 
 @media only screen and (max-width: 1024px) {
   #lets-connect {
@@ -207,3 +237,4 @@ span {
     display: block;
   }
 }
+*/

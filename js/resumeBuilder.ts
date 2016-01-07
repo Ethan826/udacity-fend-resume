@@ -82,14 +82,11 @@ interface Resume {
 // ==========================================================================//
 
 class ResumePage {
-  private resume: Resume;
 
-  constructor(input: Resume) {
-    this.resume = input;
-  }
+  constructor(private resume: Resume) {}
 
   private populateBio(): void {
-    var b = this.resume.bio;
+    let b = this.resume.bio;
     $("#header").prepend(HTMLheaderRole.replace("%data%", b.role));
     $("#header").prepend(HTMLheaderName.replace("%data%", b.name));
     $("#topContacts").append(HTMLmobile.replace("%data%", b.contacts.mobile));
@@ -152,29 +149,29 @@ class ResumePage {
   }
 
   private populateFooter(): void {
-    var cs: Contacts = this.resume.bio.contacts;
+    let cs: Contacts = this.resume.bio.contacts;
     $("#footerContacts").append(html);
     for (let c in cs) {
-      var html: string = '<li class="flex-item">' +
-        `<span class="orange-text">${c}</span>` +
-        `<span class="white-text">${cs[c]}</span>` +
-        '</li>'
+        let html: string = "<li class='flex-item'>" +
+            `<span class="orange-text">${c}</span>` +
+            `<span class="white-text">${cs[c]}</span>` +
+            "</li>";
       $("#footerContacts").append(html);
     }
   }
 
   // Re-implementation of the hiding declared inline in index.html
-  private hideMissing(): void {
-    if ($(".flex-item").length == 0) {
-      $("#topContacts").hide();
-      $("#lets-connect").hide();
-    }
-    if ($("h1").length == 0) $("#header").hide();
-    if ($(".work-entry").length == 0) $("#workExperience").hide();
-    if ($(".project-entry").length == 0) $("#projects").hide();
-    if ($(".education-entry").length == 0) $("#education").hide();
-    if ($("#map") == null) $("#mapDiv").hide();
-  }
+  // private hideMissing(): void {
+  //   if ($(".flex-item").length == 0) {
+  //     $("#topContacts").hide();
+  //     $("#lets-connect").hide();
+  //   }
+  //   if ($("h1").length == 0) $("#header").hide();
+  //   if ($(".work-entry").length == 0) $("#workExperience").hide();
+  //   if ($(".project-entry").length == 0) $("#projects").hide();
+  //   if ($(".education-entry").length == 0) $("#education").hide();
+  //   if ($("#map") == null) $("#mapDiv").hide();
+  // }
 
   populatePage() {
     this.populateBio();
@@ -182,14 +179,14 @@ class ResumePage {
     this.populateWork();
     this.populateProjects();
     this.populateFooter();
-    this.hideMissing();
+    // this.hideMissing();
   }
 }
 
 // ==========================================================================//
 // JS Objects
 // ==========================================================================//
-var bio = {
+let bio = {
   "name": "Ethan Kent",
   "role": "Full-Stack Web Developer",
   "contacts": {
@@ -200,21 +197,21 @@ var bio = {
   },
   "welcomeMessage": "Welcome to my resume",
   "skills": ["Python", "HTML", "CSS", "Clojure", "TypeScript"],
-  "biopic": "http://weknowyourdreams.com/images/dog/dog-07.jpg",
+  "biopic": "foo",
   "display": this.populateBio // "this" is in scope when passed into ResumePage
 };
 
 
-var education = {
+let education = {
   "schools":
   [
     {
-      "name": "Harvard Law School",
+      "name": "Harletd Law School",
       "location": "Cambridge, MA",
       "degree": "J.D.",
       "majors": ["Law"],
       "dates": 2011,
-      "url": "http://hls.harvard.edu/"
+      "url": "http://hls.harletd.edu/"
     }, {
       "name": "Embry-Riddle Aeronautical University",
       "location": "Daytona Beach, FL",
@@ -237,7 +234,7 @@ var education = {
   "display": this.populateEducation
 };
 
-var work = {
+let work = {
   "jobs": [{
     "employer": "Kelley Drye & Warren LLP",
     "title": "Associate Attorney",
@@ -248,23 +245,23 @@ var work = {
   "display": this.populateWork
 };
 
-var projects = {
-  "projects": [{
-    "title": "Udacity Catalog App",
-    "dates": "2015",
-    "description": "Flask app using a Postgresql backend.",
-    "images": ["foo", "bar"]
-  }],
-  "display": this.populateProjects
-}
+let projects = {
+    "projects": [{
+        "title": "Udacity Catalog App",
+        "dates": "2015",
+        "description": "Flask app using a Postgresql backend.",
+        "images": ["foo", "bar"]
+    }],
+    "display": this.populateProjects
+};
 
 // Compose objects into final combined object
-var data = {
-  bio: bio,
-  education: education,
-  work: work,
-  projects: projects
-}
+let data = {
+    bio: bio,
+    education: education,
+    work: work,
+    projects: projects
+};
 
-var resumePage = new ResumePage(data);
+let resumePage = new ResumePage(data);
 resumePage.populatePage();
