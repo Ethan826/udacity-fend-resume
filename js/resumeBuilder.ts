@@ -87,13 +87,14 @@ class ResumePage {
 
   private populateBio(): void {
     let b = this.resume.bio;
+    // Reorder so the row div is created first and then filled.
     $("#header").prepend(HTMLheaderRole.replace("%data%", b.role));
     $("#header").prepend(HTMLheaderName.replace("%data%", b.name));
+    $("#role").after(HTMLbioPic.replace("%data%", b.biopic));
     $("#topContacts").append(HTMLmobile.replace("%data%", b.contacts.mobile));
     $("#topContacts").append(HTMLemail.replace("%data%", b.contacts.email));
     $("#topContacts").append(HTMLgithub.replace("%data%", b.contacts.github));
     $("#topContacts").append(HTMLlocation.replace("%data%", b.contacts.location));
-    $("#header").append(HTMLbioPic.replace("%data%", b.biopic));
     $("#header").append(HTMLwelcomeMsg.replace("%data%", b.welcomeMessage));
     $("#header").append(HTMLskillsStart);
     for (let s of b.skills) {
@@ -197,7 +198,7 @@ let bio = {
   },
   "welcomeMessage": "Welcome to my resume",
   "skills": ["Python", "HTML", "CSS", "Clojure", "TypeScript"],
-  "biopic": "foo",
+  "biopic": "https://www.petfinder.com/wp-content/uploads/2012/11/122163343-conditioning-dog-loud-noises-632x475.jpg",
   "display": this.populateBio // "this" is in scope when passed into ResumePage
 };
 

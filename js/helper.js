@@ -19,7 +19,7 @@ var HTMLtwitter = '<li class="flex-item"><span class="intro">twitter</span><span
 var HTMLgithub = '<li class="flex-item"><span class="intro">github</span><span class="info">%data%</span></li>';
 var HTMLblog = '<li class="flex-item"><span class="intro">blog</span><span class="info">%data%</span></li>';
 var HTMLlocation = '<li class="flex-item"><span class="intro">location</span><span class="info">%data%</span></li>';
-var HTMLbioPic = '<img src="%data%" class="biopic">';
+var HTMLbioPic = '<img src="%data%" class="biopic pull-right">';
 var HTMLwelcomeMsg = '<span class="welcome-message">%data%</span>';
 var HTMLskillsStart = '<h3 id="skills-h3">Skills at a Glance:</h3><ul id="skills" class="flex-container"></ul>';
 var HTMLskills = '<li class="flex-item"><span class="info">%data%</span></li>';
