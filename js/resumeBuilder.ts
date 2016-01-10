@@ -118,80 +118,93 @@ class ResumePage {
     }
 
     private populateEducation(): void {
-        for (let s of this.resume.education.schools) {
-            $("#education").append(HTMLschoolStart);
-            $(".education-entry:last").append(HTMLschoolName.replace("%data%", s.name));
-            $(".education-entry:last").append(HTMLschoolDegree.replace("%data%", s.degree));
-            $(".education-entry:last").append(HTMLschoolDates.replace("%data%", String(s.dates)));
-            $(".education-entry:last").append(HTMLschoolLocation.replace("%data%", s.location));
-            for (let m of s.majors) {
-                $(".education-entry:last").append(HTMLschoolMajor.replace("%data%", m));
-            }
+        // Loop over jobs
+        for (let s in this.resume.education.schools) {
+            let ss = this.resume.education.schools[s];
+            let id = `ed-${s}`;
+            $("#education:last").append(HTMLschoolStart);
+            $(".education-entry:last").attr("id", id);
+            $(`#${id}`).append(`<div class='row'><div class='col-md-12' id='school-${id}'></div></div>`);
+            let txt = HTMLschoolName.replace("%data%", ss.name) + HTMLschoolDegree.replace("%data%", ss.degree);
+            $(`#school-${id}`).append(txt);
+            // Add year / location row and insert text
+            $(`#${id}:last`).append(`<div class="row" id="place-date-${id}">\
+                <div class='col-md-6' id="date-${id}"></div><div class='col-md-6' id='place-${id}'></div></div>`);
+            $(`#date-${id}`).append(HTMLschoolDates.replace("%data%", ss.dates));
+            // Add description row and insert text
+            $(`#place-${id}`).append(HTMLworkLocation.replace("%data%", ss.location));
+            let majors = HTMLschoolMajor.replace("%data%", ss.majors.join(", "));
+            $(`#${id}:last`).append(`<div class="row"><div class="col-md-12 work-description">${majors}</div></div>`);
+            let majors = ss.majors.join(", ");
         }
 
         $("#education").append(HTMLonlineClasses);
 
-        for (let o of this.resume.education.onlineCourses) {
+        for (let o in this.resume.education.onlineCourses) {
+            let os = this.resume.education.onlineCourses[o];
+            let id = `online-${o}`;
             $("#education:last").append(HTMLschoolStart);
-            $(".education-entry:last").append(HTMLonlineTitle.replace("%data%", o.title));
-            $(".education-entry:last").append(HTMLonlineSchool.replace("%data%", o.school));
-            $(".education-entry:last").append(HTMLonlineDates.replace("%data%", String(o.date)));
-            $(".education-entry:last").append(HTMLonlineURL.replace("%data%", o.url));
+            $(".education-entry:last").attr("id", id);
+            $(`#${id}`).append(`<div class='row'><div class='col-md-12' id='school-${id}'></div></div>`);
+            let schoolclass = HTMLonlineTitle.replace("%data%", os.school) + HTMLonlineSchool.replace("%data%", os.title);
+            $(`#school-${id}:last`).append(HTMLonlineSchool.replace("%data%", schoolclass));
+            $(`#school-${id}:last`).append(HTMLonlineDates.replace("%data%", String(os.date)));
+            $(`#school-${id}:last`).append(HTMLonlineURL.replace("%data%", os.url));
         }
     }
 
 
     private populateWork(): void {
+        // Loop over jobs
         for (let j in this.resume.work.jobs) {
             let js = this.resume.work.jobs[j];
             let id = `work-${j}`;
+            // Put master div
             $("#workExperience:last").append(HTMLworkStart);
+            // Add a unique id for each job
             $(".work-entry:last").last().attr("id", id);
-            $(`#${id}`).append(`<div class='row'><div class='col-md-12 column' id='employer-${id}'></div></div>`);
+            // Add employer / job title row and insert text
+            $(`#${id}`).append(`<div class='row'><div class='col-md-12' id='employer-${id}'></div></div>`);
             let txt = HTMLworkEmployer.replace("%data%", js.employer) + HTMLworkTitle.replace("%data%", js.title);
             $(`#employer-${id}`).append(txt);
-            /*
-            <div class="work-entry">
-              <div class="row">
-                <div><a href="#">Kelley</a>&nbsp;&ndash;</div>
-              </div>
-              <div class="row">
-                <div class="md-col-8 column">2015&ndash;Present</div>
-                <div class="md-col-4 column">Chicago</div>
-              </div>
-              <div class="row">
-                <p>Mid-level litigation</p>
-              </div>
-            </div>
-            */
-            // $("#workExperience").append(HTMLworkStart);
-            // $(".work-entry:last").append(HTMLworkEmployer.replace("%data%", j.employer));
-            // $(".work-entry:last").append(HTMLworkTitle.replace("%data%", j.title));
-            // $(".work-entry:last").append(HTMLworkDates.replace("%data%", j.dates));
-            // $(".work-entry:last").append(HTMLworkLocation.replace("%data%", j.location));
-            // $(".work-entry:last").append(HTMLworkDescription.replace("%data%", j.description));
+            // Add year / location row and insert text
+            $(`#${id}:last`).append(`<div class="row" id="place-date-${id}">\
+                <div class='col-md-6' id="date-${id}"></div><div class='col-md-6' id='place-${id}'></div></div>`);
+            $(`#date-${id}`).append(HTMLworkDates.replace("%data%", js.dates));
+            // Add description row and insert text
+            $(`#place-${id}`).append(HTMLworkLocation.replace("%data%", js.location));
+            let desc = HTMLworkDescription.replace("%data%", js.description);
+            $(`#${id}:last`).append(`<div class="row"><div class="col-md-12 work-description">${desc}</div></div>`);
         }
     }
 
     private populateProjects(): void {
-        for (let p of this.resume.projects.projects) {
-            $("#projects").append(HTMLprojectStart);
-            $(".project-entry:last").append(HTMLprojectTitle.replace("%data%", p.title));
-            $(".project-entry:last").append(HTMLprojectDates.replace("%data%", p.dates));
-            $(".project-entry:last").append(HTMLprojectDescription.replace("%data%", p.description));
-            for (let i of p.images) {
+        for (let p in this.resume.projects.projects) {
+            let ps = this.resume.projects.projects[p];
+            let id = `project-${p}`;
+            // Put master div
+            $("#projects:last").append(HTMLprojectStart);
+            // Add a unique id for each job
+            $(".project-entry:last").last().attr("id", id);
+            $(`#${id}`).append(`<div class="md-col-12" id="col-${id}"></div>`);
+            $(`#col-${id}:last`).append(HTMLprojectTitle.replace("%data%", ps.title));
+            $(`#col-${id}:last`).append(HTMLprojectDates.replace("%data%", ps.dates));
+            $(`#col-${id}:last`).append(HTMLprojectDescription.replace("%data%", ps.description));
+            for (let i of ps.images) {
                 $(".project-entry:last").append(HTMLprojectImage.replace("%data%", i));
             }
         }
     }
 
     private populateFooter(): void {
+        $("#lets-connect").addClass("row");
+        $("#footerContacts").addClass("flex-container");
         let cs: Contacts = this.resume.bio.contacts;
-        $("#footerContacts").append(html);
+        $("#connect-list").append(html);
         for (let c in cs) {
             let html: string = "<li class='flex-item'>" +
-                `<span class="orange-text">${c}</span>` +
-                `<span class="white-text">${cs[c]}</span>` +
+                `<span class="intro">${c}</span>` +
+                `<span class="info">${cs[c]}</span>` +
                 "</li>";
             $("#footerContacts").append(html);
         }
@@ -216,7 +229,7 @@ class ResumePage {
         this.populateWork();
         this.populateProjects();
         this.populateFooter();
-        // this.hideMissing();
+        // this.hideMissing(); // TODO: reimplement with changes to page. Use IDs?
     }
 }
 
@@ -233,7 +246,7 @@ let bio = {
         "location": "Chicago"
     },
     "welcomeMessage": "Welcome to my resume",
-    "skills": ["Python", "HTML", "CSS", "Clojure", "TypeScript"],
+    "skills": ["Python", "JavaScript", "HTML", "CSS", "Clojure", "TypeScript"],
     "biopic": "https://www.petfinder.com/wp-content/uploads/2012/11/122163343-conditioning-dog-loud-noises-632x475.jpg",
     "display": this.populateBio // "this" is in scope when passed into ResumePage
 };
