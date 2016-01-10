@@ -1,5 +1,11 @@
 #header {
     flex-wrap: wrap;
+    padding: 10px;
+    background: #d2d2ff;
+}
+
+#contacts {
+    padding-bottom: 30px;
 }
 
 #name {
@@ -29,12 +35,24 @@
     padding-right: 0.5em;
 }
 
+.greeting {
+  font-style: italic;
+  font-size: 18px;
+  color: #470b2b;
+  line-height: 28px;
+}
+
 .biopic {
     max-width: 20%;
 }
 
 #skills-h3 {
+    padding: 0;
     display: inline;
+}
+
+.location-text {
+    color: orange;
 }
 
 /*body,

@@ -1,18 +1,11 @@
-/*
-
-This file contains all of the code running in the background that makes resumeBuilder.js possible. We call these helper functions because they support your code in this course.
-
-Don't worry, you'll learn what's going on in this file throughout the course. You won't need to make any changes to it until you start experimenting with inserting a Google Map in Problem Set 3.
-
-Cameron Pittman
-*/
-/*
-These are HTML strings. As part of the course, you'll be using JavaScript functions
-replace the %data% placeholder text you see in them.
-*/
 var HTMLheaderName = '<h1 id="name">%data%</h1>';
 var HTMLheaderRole = '<span id="role">%data%</span>';
+var HTMLheadline = "<div class='row' id='headline'></div>";
+var HTMLnameRole = "<div class='column col-md-5' id='namerole'></div>";
+var HTMLpicture = "<div class='column col-md-7' id='picture'>";
 var HTMLcontactGeneric = '<li class="flex-item"><span class="intro">%contact%</span><span class="info">%data%</span></li>';
+var HTMLcontacts = "<div class='row' id='contacts'></div>";
+var HTMLcontactsList = "<li class='flex-container' id='contactslist'></li>";
 var HTMLmobile = '<li class="flex-item"><span class="intro">mobile</span><span class="info">%data%</span></li>';
 var HTMLemail = '<li class="flex-item"><span class="intro">email</span><span class="info">%data%</span></li>';
 var HTMLtwitter = '<li class="flex-item"><span class="intro">twitter</span><span class="info">%data%</span></li>';
@@ -21,14 +14,21 @@ var HTMLblog = '<li class="flex-item"><span class="intro">blog</span><span class
 var HTMLlocation = '<li class="flex-item"><span class="intro">location</span><span class="info">%data%</span></li>';
 var HTMLbioPic = '<img src="%data%" class="biopic pull-right">';
 var HTMLwelcomeMsg = '<span class="welcome-message">%data%</span>';
-var HTMLskillsStart = '<h3 id="skills-h3">Skills at a Glance:</h3><ul id="skills" class="flex-container"></ul>';
-var HTMLskills = '<li class="flex-item"><span class="info">%data%</span></li>';
-var HTMLworkStart = '<div class="work-entry"></div>';
-var HTMLworkEmployer = '<a href="#">%data%';
-var HTMLworkTitle = ' - %data%</a>';
-var HTMLworkDates = '<div class="date-text">%data%</div>';
-var HTMLworkLocation = '<div class="location-text">%data%</div>';
+var HTMLskillsHead = "<div class='col-md-3 column' id='skillshead'>";
+var HTMLskillsRow = "<div class='row' id='skillsrow'></div>";
+var HTMLskillsStart = '<div id="skillshead" class="skills-h3">Skills at a Glance:</h3>';
+var HTMLskillsList = "<div class='col-md-6 column' id='skillslist'>";
+var HTMLskills = '<li class="flex-item col-md-6"><span class="info">%data%</span></li>';
+var HTMLskillsContainer = "<ul class='flex-container' id='skills'></ul>";
+var HTMLskillsQuote = "<div class='col-md-3 column' id='skillsquote'>";
+var HTMLgreeting = "<div class='greeting pull-right'>HELLO WORLD!</div>";
+var HTMLworkStart = '<div class="work-entry row"></div>';
+var HTMLworkEmployer = '<a href="#">%data%&nbsp;&ndash;';
+var HTMLworkTitle = '&nbsp;%data%</a>';
+var HTMLworkDates = '<div class="date-text row">%data%</div>';
+var HTMLworkLocation = '<div class="location-text pull-right">%data%</div>';
 var HTMLworkDescription = '<p><br>%data%</p>';
+
 var HTMLprojectStart = '<div class="project-entry"></div>';
 var HTMLprojectTitle = '<a href="#">%data%</a>';
 var HTMLprojectDates = '<div class="date-text">%data%</div>';

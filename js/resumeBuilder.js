@@ -9,20 +9,35 @@ var ResumePage = (function () {
     }
     ResumePage.prototype.populateBio = function () {
         var b = this.resume.bio;
-        // Reorder so the row div is created first and then filled.
-        $("#header").prepend(HTMLheaderRole.replace("%data%", b.role));
-        $("#header").prepend(HTMLheaderName.replace("%data%", b.name));
-        $("#role").after(HTMLbioPic.replace("%data%", b.biopic));
-        $("#topContacts").append(HTMLmobile.replace("%data%", b.contacts.mobile));
-        $("#topContacts").append(HTMLemail.replace("%data%", b.contacts.email));
-        $("#topContacts").append(HTMLgithub.replace("%data%", b.contacts.github));
-        $("#topContacts").append(HTMLlocation.replace("%data%", b.contacts.location));
-        $("#header").append(HTMLwelcomeMsg.replace("%data%", b.welcomeMessage));
-        $("#header").append(HTMLskillsStart);
+        // Put an empty <div class="row" id="headline"></div>
+        $("#header").prepend(HTMLheadline);
+        // Make the namerole column
+        $("#headline").prepend(HTMLnameRole);
+        $("#namerole").append(HTMLheaderName.replace("%data%", b.name));
+        $("#namerole").append(HTMLheaderRole.replace("%data%", b.role));
+        // Make the picture colulmn
+        $("#headline:last").append(HTMLpicture);
+        $("#picture").append(HTMLbioPic.replace("%data%", b.biopic));
+        // Make the contacts row
+        $("#topContacts").append(HTMLcontacts);
+        $("#contacts").append(HTMLcontactsList);
+        $("#contactslist").append(HTMLmobile.replace("%data%", b.contacts.mobile));
+        $("#contactslist").append(HTMLemail.replace("%data%", b.contacts.email));
+        $("#contactslist").append(HTMLgithub.replace("%data%", b.contacts.github));
+        $("#contactslist").append(HTMLlocation.replace("%data%", b.contacts.location));
+        // Make the skills row
+        $("#topContacts:last").append(HTMLskillsRow);
+        // Make columns for skills and statement 
+        $("#skillsrow").append(HTMLskillsHead);
+        $("#skillshead").append(HTMLskillsStart);
+        $("#skillsrow:last").append(HTMLskillsList);
+        $("#skillslist").append(HTMLskillsContainer);
         for (var _i = 0, _a = b.skills; _i < _a.length; _i++) {
             var s = _a[_i];
-            $("#skills").append(HTMLskills.replace("%data%", s));
+            $("#skills:last").append(HTMLskills.replace("%data%", s));
         }
+        $("#skillsrow:last").append(HTMLskillsQuote);
+        $("#skillsquote").append(HTMLgreeting);
     };
     ResumePage.prototype.populateEducation = function () {
         for (var _i = 0, _a = this.resume.education.schools; _i < _a.length; _i++) {
@@ -48,14 +63,14 @@ var ResumePage = (function () {
         }
     };
     ResumePage.prototype.populateWork = function () {
-        for (var _i = 0, _a = this.resume.work.jobs; _i < _a.length; _i++) {
-            var j = _a[_i];
-            $("#workExperience").append(HTMLworkStart);
-            $(".work-entry:last").append(HTMLworkEmployer.replace("%data%", j.employer));
-            $(".work-entry:last").append(HTMLworkTitle.replace("%data%", j.title));
-            $(".work-entry:last").append(HTMLworkDates.replace("%data%", j.dates));
-            $(".work-entry:last").append(HTMLworkLocation.replace("%data%", j.location));
-            $(".work-entry:last").append(HTMLworkDescription.replace("%data%", j.description));
+        for (var j in this.resume.work.jobs) {
+            var js = this.resume.work.jobs[j];
+            var id = "work-" + j;
+            $("#workExperience:last").append(HTMLworkStart);
+            $(".work-entry:last").last().attr("id", id);
+            $("#" + id).append("<div class='row'><div class='col-md-12 column' id='employer-" + id + "'></div></div>");
+            var txt = HTMLworkEmployer.replace("%data%", js.employer) + HTMLworkTitle.replace("%data%", js.title);
+            $("#employer-" + id).append(txt);
         }
     };
     ResumePage.prototype.populateProjects = function () {
@@ -124,12 +139,12 @@ var bio = {
 var education = {
     "schools": [
         {
-            "name": "Harletd Law School",
+            "name": "Harvard Law School",
             "location": "Cambridge, MA",
             "degree": "J.D.",
             "majors": ["Law"],
             "dates": 2011,
-            "url": "http://hls.harletd.edu/"
+            "url": "http://hls.harvard.edu/"
         }, {
             "name": "Embry-Riddle Aeronautical University",
             "location": "Daytona Beach, FL",
