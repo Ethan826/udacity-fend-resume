@@ -162,7 +162,7 @@ var ResumePage = (function () {
     };
     ResumePage.prototype.mapBuilder = function () {
         var jsElement = document.getElementById("map");
-        var map = new GoogleMap(jsElement, this.locationFinder());
+        this.map = new GoogleMap(jsElement, this.locationFinder());
     };
     return ResumePage;
 })();
@@ -263,6 +263,12 @@ var work = {
             "location": "Chicago",
             "dates": "2015-Present",
             "description": "Mid-level litigation associate at large national law firm."
+        }, {
+            "employer": "San Diego Flight Training, Int'l",
+            "title": "Flight Instructor",
+            "location": "San Diego",
+            "dates": "2004-2006",
+            "description": "Trained students to fly small airplanes."
         }],
     "display": this.populateWork
 };
@@ -272,6 +278,11 @@ var projects = {
             "dates": "2015",
             "description": "Flask app using a Postgresql backend.",
             "images": ["foo", "bar"]
+        }, {
+            "title": "Murder for Hire Outfit",
+            "dates": "1929",
+            "description": "Worked as enforcer for Al Capone.",
+            "images": ["baz", "quux"]
         }],
     "display": this.populateProjects
 };

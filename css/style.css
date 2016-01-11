@@ -17,6 +17,10 @@
     padding: 10px 1em;
 }
 
+#map {
+    height: 500px;
+}
+
 .flex-container {
     display: -webkit-flex;
     display: flex;
