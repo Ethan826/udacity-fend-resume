@@ -28,7 +28,6 @@ var HTMLworkTitle = '&nbsp;%data%</a>';
 var HTMLworkDates = '<div class="date-text">%data%</div>';
 var HTMLworkLocation = '<div class="location-text pull-right">%data%</div>';
 var HTMLworkDescription = '<p><br>%data%</p>';
-
 var HTMLprojectStart = '<div class="project-entry"></div>';
 var HTMLprojectTitle = '<a href="#">%data%</a>';
 var HTMLprojectDates = '<div class="date-text">%data%</div>';
@@ -68,7 +67,7 @@ function logClicks(x, y) {
     console.log('x location: ' + x + '; y location: ' + y);
 }
 $(document).click(function (loc) {
-    // your code goes here!
+    logClicks(loc.pageX, loc.pageY);
 });
 /*
 This is the fun part. Here's where we generate the custom Google Map for the website.
@@ -92,28 +91,6 @@ function initializeMap() {
     /*
     locationFinder() returns an array of every location string from the JSONs
     written for bio, education, and work.
-    */
-    function locationFinder() {
-        // initializes an empty array
-        var locations = [];
-        // adds the single location property from bio to the locations array
-        locations.push(bio.contacts.location);
-        // iterates through school locations and appends each location to
-        // the locations array. Note that forEach is used for array iteration
-        // as described in the Udacity FEND Style Guide:
-        // https://udacity.github.io/frontend-nanodegree-styleguide/javascript.html#for-in-loop
-        education.schools.forEach(function (school) {
-            locations.push(school.location);
-        });
-        // iterates through work locations and appends each location to
-        // the locations array. Note that forEach is used for array iteration
-        // as described in the Udacity FEND Style Guide:
-        // https://udacity.github.io/frontend-nanodegree-styleguide/javascript.html#for-in-loop
-        work.jobs.forEach(function (job) {
-            locations.push(job.location);
-        });
-        return locations;
-    }
     /*
     createMapMarker(placeData) reads Google Places search results to create map pins.
     placeData is the object returned from search results containing information

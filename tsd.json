@@ -7,6 +7,9 @@
   "installed": {
     "jquery/jquery.d.ts": {
       "commit": "bdaf2f0eb19edee26248c80bab4947e9b70e4217"
+    },
+    "googlemaps/google.maps.d.ts": {
+      "commit": "6eebd5e90a1cbd6b47b0705ba72dbcd5baf846f3"
     }
   }
 }

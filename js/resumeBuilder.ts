@@ -1,5 +1,6 @@
-/// <reference path="../typings/jquery/jquery.d.ts"/>
-/// <reference path="helper.ts"/>
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/googlemaps/google.maps.d.ts" />
+/// <reference path="../typings/helper.d.ts" />
 
 // ==========================================================================//
 // Interface definitions
@@ -83,7 +84,10 @@ interface Resume {
 
 class ResumePage {
 
-    constructor(private resume: Resume) { }
+    constructor(private resume: Resume) {
+        this.populatePage();
+        this.mapBuilder();
+    }
 
     private populateBio(): void {
         let b = this.resume.bio;
@@ -130,12 +134,11 @@ class ResumePage {
             // Add year / location row and insert text
             $(`#${id}:last`).append(`<div class="row" id="place-date-${id}">\
                 <div class='col-md-6' id="date-${id}"></div><div class='col-md-6' id='place-${id}'></div></div>`);
-            $(`#date-${id}`).append(HTMLschoolDates.replace("%data%", ss.dates));
+            $(`#date-${id}`).append(HTMLschoolDates.replace("%data%", String(ss.dates)));
             // Add description row and insert text
             $(`#place-${id}`).append(HTMLworkLocation.replace("%data%", ss.location));
             let majors = HTMLschoolMajor.replace("%data%", ss.majors.join(", "));
             $(`#${id}:last`).append(`<div class="row"><div class="col-md-12 work-description">${majors}</div></div>`);
-            let majors = ss.majors.join(", ");
         }
 
         $("#education").append(HTMLonlineClasses);
@@ -200,7 +203,6 @@ class ResumePage {
         $("#lets-connect").addClass("row");
         $("#footerContacts").addClass("flex-container");
         let cs: Contacts = this.resume.bio.contacts;
-        $("#connect-list").append(html);
         for (let c in cs) {
             let html: string = "<li class='flex-item'>" +
                 `<span class="intro">${c}</span>` +
@@ -208,6 +210,10 @@ class ResumePage {
                 "</li>";
             $("#footerContacts").append(html);
         }
+    }
+
+    private makeMapDiv() {
+        $("#mapDiv:last").append("<div class='row'><div class='col-md-12' id='map'></div></div>");
     }
 
     // Re-implementation of the hiding declared inline in index.html
@@ -229,8 +235,78 @@ class ResumePage {
         this.populateWork();
         this.populateProjects();
         this.populateFooter();
+        this.makeMapDiv();
         // this.hideMissing(); // TODO: reimplement with changes to page. Use IDs?
     }
+
+    private locationFinder(): string[] {
+        let locations = [];
+        locations.push(this.resume.bio.contacts.location);
+        this.resume.education.schools.forEach(function(school) {
+            locations.push(school.location);
+        });
+        this.resume.work.jobs.forEach(function(job) {
+            locations.push(job.location);
+        });
+        return locations;
+    }
+
+    private mapBuilder() {
+        let jsElement = document.getElementById("map");
+        let map = new GoogleMap(jsElement, this.locationFinder());
+    }
+}
+
+class GoogleMap {
+    private map: google.maps.Map;
+    private bounds: google.maps.LatLngBounds;
+
+    constructor(
+        jsElement: HTMLElement,
+        private locations: string[]
+    ) {
+        let options = { disableDefaultUI: true };
+        this.map = new google.maps.Map(jsElement, options);
+        this.bounds = new google.maps.LatLngBounds();
+        $(window).resize(function() {
+            this.map.fitBounds(this.bounds);
+        });
+        this.pinPoster();
+    };
+
+    private createMapMarker(placeData: google.maps.GeocoderResult): void {
+        let marker = new google.maps.Marker({
+            map: this.map,
+            position: placeData.geometry.location,
+            title: name
+        });
+        let infoWindow = new google.maps.InfoWindow({
+            content: placeData.formatted_address
+        });
+        google.maps.event.addListener(marker, "click", function() {
+            infoWindow.open(this.map, marker);
+        });
+        this.bounds.extend(
+            new google.maps.LatLng(
+                placeData.geometry.location.lat(),
+                placeData.geometry.location.lng()
+            ));
+        this.map.fitBounds(this.bounds);
+        this.map.setCenter(this.bounds.getCenter());
+    }
+
+    private pinPoster(): void {
+        let self = this;
+        let service = new google.maps.places.PlacesService(this.map);
+        this.locations.forEach(function(place) {
+            let request = { query: place };
+            service.textSearch(request, function(results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    self.createMapMarker(results[0]);
+                }
+            });
+        });
+    };
 }
 
 // ==========================================================================//
@@ -314,4 +390,3 @@ let data = {
 };
 
 let resumePage = new ResumePage(data);
-resumePage.populatePage();

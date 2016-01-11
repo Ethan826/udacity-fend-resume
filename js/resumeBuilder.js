@@ -1,11 +1,14 @@
-/// <reference path="../typings/jquery/jquery.d.ts"/>
-/// <reference path="helper.ts"/>
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/googlemaps/google.maps.d.ts" />
+/// <reference path="../typings/helper.d.ts" />
 // ==========================================================================//
 // Class defintion
 // ==========================================================================//
 var ResumePage = (function () {
     function ResumePage(resume) {
         this.resume = resume;
+        this.populatePage();
+        this.mapBuilder();
     }
     ResumePage.prototype.populateBio = function () {
         var b = this.resume.bio;
@@ -51,12 +54,11 @@ var ResumePage = (function () {
             $("#school-" + id).append(txt);
             // Add year / location row and insert text
             $("#" + id + ":last").append("<div class=\"row\" id=\"place-date-" + id + "\">                <div class='col-md-6' id=\"date-" + id + "\"></div><div class='col-md-6' id='place-" + id + "'></div></div>");
-            $("#date-" + id).append(HTMLschoolDates.replace("%data%", ss.dates));
+            $("#date-" + id).append(HTMLschoolDates.replace("%data%", String(ss.dates)));
             // Add description row and insert text
             $("#place-" + id).append(HTMLworkLocation.replace("%data%", ss.location));
             var majors = HTMLschoolMajor.replace("%data%", ss.majors.join(", "));
             $("#" + id + ":last").append("<div class=\"row\"><div class=\"col-md-12 work-description\">" + majors + "</div></div>");
-            var majors = ss.majors.join(", ");
         }
         $("#education").append(HTMLonlineClasses);
         for (var o in this.resume.education.onlineCourses) {
@@ -115,7 +117,6 @@ var ResumePage = (function () {
         $("#lets-connect").addClass("row");
         $("#footerContacts").addClass("flex-container");
         var cs = this.resume.bio.contacts;
-        $("#connect-list").append(html);
         for (var c in cs) {
             var html = "<li class='flex-item'>" +
                 ("<span class=\"intro\">" + c + "</span>") +
@@ -123,6 +124,9 @@ var ResumePage = (function () {
                 "</li>";
             $("#footerContacts").append(html);
         }
+    };
+    ResumePage.prototype.makeMapDiv = function () {
+        $("#mapDiv:last").append("<div class='row'><div class='col-md-12' id='map'></div></div>");
     };
     // Re-implementation of the hiding declared inline in index.html
     // private hideMissing(): void {
@@ -142,9 +146,68 @@ var ResumePage = (function () {
         this.populateWork();
         this.populateProjects();
         this.populateFooter();
+        this.makeMapDiv();
         // this.hideMissing(); // TODO: reimplement with changes to page. Use IDs?
     };
+    ResumePage.prototype.locationFinder = function () {
+        var locations = [];
+        locations.push(this.resume.bio.contacts.location);
+        this.resume.education.schools.forEach(function (school) {
+            locations.push(school.location);
+        });
+        this.resume.work.jobs.forEach(function (job) {
+            locations.push(job.location);
+        });
+        return locations;
+    };
+    ResumePage.prototype.mapBuilder = function () {
+        var jsElement = document.getElementById("map");
+        var map = new GoogleMap(jsElement, this.locationFinder());
+    };
     return ResumePage;
+})();
+var GoogleMap = (function () {
+    function GoogleMap(jsElement, locations) {
+        this.locations = locations;
+        var options = { disableDefaultUI: true };
+        this.map = new google.maps.Map(jsElement, options);
+        this.bounds = new google.maps.LatLngBounds();
+        $(window).resize(function () {
+            this.map.fitBounds(this.bounds);
+        });
+        this.pinPoster();
+    }
+    ;
+    GoogleMap.prototype.createMapMarker = function (placeData) {
+        var marker = new google.maps.Marker({
+            map: this.map,
+            position: placeData.geometry.location,
+            title: name
+        });
+        var infoWindow = new google.maps.InfoWindow({
+            content: placeData.formatted_address
+        });
+        google.maps.event.addListener(marker, "click", function () {
+            infoWindow.open(this.map, marker);
+        });
+        this.bounds.extend(new google.maps.LatLng(placeData.geometry.location.lat(), placeData.geometry.location.lng()));
+        this.map.fitBounds(this.bounds);
+        this.map.setCenter(this.bounds.getCenter());
+    };
+    GoogleMap.prototype.pinPoster = function () {
+        var self = this;
+        var service = new google.maps.places.PlacesService(this.map);
+        this.locations.forEach(function (place) {
+            var request = { query: place };
+            service.textSearch(request, function (results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    self.createMapMarker(results[0]);
+                }
+            });
+        });
+    };
+    ;
+    return GoogleMap;
 })();
 // ==========================================================================//
 // JS Objects
@@ -220,4 +283,3 @@ var data = {
     projects: projects
 };
 var resumePage = new ResumePage(data);
-resumePage.populatePage();
