@@ -1,11 +1,23 @@
 #header {
+    margin-top: 2em;
+    padding: 2em 0;
     flex-wrap: wrap;
-    padding: 10px;
-    background: #d2d2ff;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+}
+
+#workExperience {
+    padding-top: 1em;
+    border-bottom: 1px solid gray;
 }
 
 #contacts {
-    padding-bottom: 30px;
+    padding-top: 1.5em;
+    padding-bottom: 1em;
+}
+
+#contactslist {
+    padding-bottom: 1.5em;
 }
 
 #name {
@@ -13,12 +25,39 @@
 }
 
 #role {
-    color: gray;
+    color: #4c4c79;
     padding: 10px 1em;
+}
+
+#contacts::after {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    border-top: 1px solid gray;
+}
+
+#skillshead {
+    font-size: 2.5rem;
+}
+
+#projects {
+    padding-top: 1em;
+}
+
+.project-entry {
+    padding-bottom: 2em;
 }
 
 #map {
     height: 500px;
+}
+
+
+#education {
+    padding-top: 1em; 
+    padding-bottom: 3em;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
 }
 
 .flex-container {
@@ -40,14 +79,15 @@
 }
 
 .greeting {
-  font-style: italic;
-  font-size: 18px;
-  color: #470b2b;
-  line-height: 28px;
+    font-size: 2rem;
 }
 
 .biopic {
     max-width: 20%;
+}
+
+#skillshead {
+    color
 }
 
 #skills-h3 {
@@ -55,217 +95,29 @@
     display: inline;
 }
 
-.location-text {
-    color: orange;
-}
-
-#lets-connect {
-    background: lightblue;
-    text-align: center;
-}
-
-/*body,
-div,
-ul,
-li,
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  padding:0;
-  margin:0;
-  font-family: 'Muli', sans-serif;
-  font-weight: 400;
-}
-
-.education-entry,
-.work-entry,
-.project-entry {
-  padding: 0 5%;
-}
-*/
-/*h1 {
-  font-size: 40px;
-  font-weight: 300;
-  color: #0b2b47;
-  line-height: 48px;
-  display: inline;
-}
-
-h2 {
-  font-size: 24px;
-  color: #2b470b;
-  font-weight: 300;
-  line-height: 29px;
-  padding: 10px;
-}
-
-h3 {
-  font-style: italic;
-  font-size: 20px;
-  color: #000;
-  line-height: 22px;
-}
-
-h4 {
-  font-weight: bold;
-  font-size: 14px;
-  color: #4a4a4a;
-  line-height: 17px;
-}
-
-h2,
-h3,
-h4,
-h5 {
-  padding:10px 5%;
-
-}
-
-
-.date-text {
-  font-style: italic;
-  font-size: 14px;
-  color: #999;
-  line-height: 16px;
-  float: left;
-}
-
-.location-text {
-  font-style: italic;
-  font-size: 14px;
-  color: #999;
-  line-height: 16px;
-  float: right;
-
-}
-
-p {
-  font-size: 14px;
-  color: #333;
-  line-height: 21px;
-}
-
-a {
-  color: #1199c3;
-  text-decoration: none;
-  margin-top: 10px;
-  display: block;
-}
-
-.welcome-message {
-  font-style: italic;
-  font-size: 18px;
-  color: #470b2b;
-  line-height: 28px;
-}
-
-#skills-h3 {
-  color: #0b2b47;
-  display: none;
-}
-
-.orange {
-  color: #0b2b47;
-}
-
-.orange-text {
-  color: #2b470b;
-}
-
-.white-text {
-  color: #0b2b47;
-}
-
-.gray {
-  background-color: #f3f3f3;
-  padding-bottom: 10px;
-  clear:both;
-}
-
-.dark-gray {
-  background-color: #4a4a4a;
-}
-
-.flex-box {
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 10px;
-}
-
-.center-content {
-  padding: 2.5% 5%;
-}
-
-ul {
-  list-style-type: none;
-}
-
-.biopic {
-  float: left;
-  padding: 10px;
-  width: 200px;
-}
-
-img {
-  padding: 10px;
-}
-
-span {
-  padding: 5px;
-}
-
-#lets-connect {
-  text-align: center;
-}
-
-
-@media only screen and (max-width: 1024px) {
-  #lets-connect {
-    margin-top: 5%;
-  }
-}
-
-@media only screen and (max-width:900px) {
-  .biopic {
-    width: 175px;
-  }
-}
-
-@media only screen and (max-width: 750px) {
-  #lets-connect {
-    margin-top: 10%;
-  }
-  .biopic {
-    width: 150px;
-  }
-  .welcome-message {
-    display: none;
-  }
-}
-
-#map {
-  display: block;
-  height: 100%;
-  margin: 0 5%;
-}
-
 #mapDiv {
-  height: 400px;
-  width: 100%;
-  padding-bottom: 5%;
+    padding-bottom: 3em;
 }
 
-@media only screen and (min-width: 750px) {
-  #skills-h3,
-  .biopic {
-    display: block;
-  }
+#lets-connect {
+    text-align: center;
+    border-top: 1px solid gray;
+    padding-top: 0.5em;
+    padding-bottom: 3em;
 }
-*/
+
+.work-description {
+    padding-bottom: 2em;
+}
+
+@media only screen and (max-width: 1000px) {
+    .greeting {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .biopic {
+        display: none;
+    }
+}

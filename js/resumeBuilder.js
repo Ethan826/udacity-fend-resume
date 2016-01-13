@@ -40,7 +40,7 @@ var ResumePage = (function () {
             $("#skills:last").append(HTMLskills.replace("%data%", s));
         }
         $("#skillsrow:last").append(HTMLskillsQuote);
-        $("#skillsquote").append(HTMLgreeting);
+        $("#skillsquote").append(HTMLgreeting.replace("%data%", b.welcomeMessage));
     };
     ResumePage.prototype.populateEducation = function () {
         // Loop over jobs

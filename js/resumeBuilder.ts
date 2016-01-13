@@ -119,7 +119,7 @@ class ResumePage {
             $("#skills:last").append(HTMLskills.replace("%data%", s));
         }
         $("#skillsrow:last").append(HTMLskillsQuote);
-        $("#skillsquote").append(HTMLgreeting);
+        $("#skillsquote").append(HTMLgreeting.replace("%data%", b.welcomeMessage));
     }
 
     private populateEducation(): void {
