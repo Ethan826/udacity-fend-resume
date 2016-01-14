@@ -165,17 +165,16 @@ class ResumePage {
         $("#skillshead").append(HTMLskillsStart);
         $("#skillsrow:last").append(HTMLskillsList);
         $("#skillslist").append(HTMLskillsContainer);
-        for (let s of b.skills) {
+        b.skills.forEach(function(s) {
             $("#skills:last").append(HTMLskills.replace("%data%", s));
-        }
+        });
         $("#skillsrow:last").append(HTMLskillsQuote);
         $("#skillsquote").append(HTMLgreeting.replace("%data%", b.welcomeMessage));
     }
 
     private populateEducation(): void {
         // Loop over jobs
-        for (let s in this.resume.education.schools) {
-            let ss = this.resume.education.schools[s];
+        this.resume.education.schools.forEach(function(ss, s) {
             let id = `ed-${s}`;
             $("#education:last").append(HTMLschoolStart);
             $(".education-entry:last").attr("id", id);
@@ -191,12 +190,11 @@ class ResumePage {
             $(`#place-${id}`).append(HTMLworkLocation.replace("%data%", ss.location));
             let majors = HTMLschoolMajor.replace("%data%", ss.majors.join(", "));
             $(`#${id}:last`).append(`<div class="row"><div class="col-md-12 work-description">${majors}</div></div>`);
-        }
+        });
 
         $("#education").append(HTMLonlineClasses);
 
-        for (let o in this.resume.education.onlineCourses) {
-            let os = this.resume.education.onlineCourses[o];
+        this.resume.education.onlineCourses.forEach(function(os, o) {
             let id = `online-${o}`;
             $("#education:last").append(HTMLschoolStart);
             $(".education-entry:last").attr("id", id);
@@ -206,7 +204,7 @@ class ResumePage {
             $(`#school-${id}:last`).append(HTMLonlineSchool.replace("%data%", schoolclass));
             $(`#school-${id}:last`).append(HTMLonlineDates.replace("%data%", String(os.date)));
             $(`#school-${id}:last`).append(HTMLonlineURL.replace("%data%", os.url).replace("#", os.url));
-        }
+        });
     }
 
     /* The shim method is necessary because the specs do not allow a URL for
@@ -220,8 +218,7 @@ class ResumePage {
 
     private populateWork(): void {
         // Loop over jobs
-        for (let j in this.resume.work.jobs) {
-            let js = this.resume.work.jobs[j];
+        this.resume.work.jobs.forEach(function(js, j) {
             let id = `work-${j}`;
             // Put master div
             $("#workExperience:last").append(HTMLworkStart);
@@ -239,14 +236,13 @@ class ResumePage {
             $(`#place-${id}`).append(HTMLworkLocation.replace("%data%", js.location));
             let desc = HTMLworkDescription.replace("%data%", js.description);
             $(`#${id}:last`).append(`<div class="row"><div class="col-md-12 work-description">${desc}</div></div>`);
-        }
+        });
         this.shim("Kelley", "http://www.kelleydrye.com/");
         this.shim("Flight", "http://www.sdfti.com/");
     }
 
     private populateProjects(): void {
-        for (let p in this.resume.projects.projects) {
-            let ps = this.resume.projects.projects[p];
+        this.resume.projects.projects.forEach(function(ps, p) {
             let id = `project-${p}`;
             // Put master div
             $("#projects:last").append(HTMLprojectStart);
@@ -259,7 +255,7 @@ class ResumePage {
             for (let i of ps.images) {
                 $(".project-entry:last").append(HTMLprojectImage.replace("%data%", i));
             }
-        }
+        });
         this.shim("Catalog", "https://github.com/Ethan826/udacity-catalog");
         this.shim("Murder", "http://www.loumalnatis.com/");
     }
@@ -269,11 +265,13 @@ class ResumePage {
         $("#footerContacts").addClass("flex-container");
         let cs: Contacts = this.resume.bio.contacts;
         for (let c in cs) {
-            let html: string = "<li class='flex-item'>" +
-                `<span class="intro">${c}</span>` +
-                `<span class="info">${cs[c]}</span>` +
-                "</li>";
-            $("#footerContacts").append(html);
+            if (cs.hasOwnProperty(c)) {
+                let html: string = "<li class='flex-item'>" +
+                    `<span class="intro">${c}</span>` +
+                    `<span class="info">${cs[c]}</span>` +
+                    "</li>";
+                $("#footerContacts").append(html);
+            }
         }
     }
 
@@ -337,7 +335,7 @@ class GoogleMap {
             this.map.fitBounds(this.bounds);
         });
         this.pinPoster();
-    };
+    }
 
     private createMapMarker(placeData: google.maps.places.PlaceResult): void {
         let marker = new google.maps.Marker({
@@ -371,7 +369,7 @@ class GoogleMap {
                 }
             });
         });
-    };
+    }
 }
 
 // ==========================================================================//

@@ -84,17 +84,15 @@ var ResumePage = (function () {
         $("#skillshead").append(HTMLskillsStart);
         $("#skillsrow:last").append(HTMLskillsList);
         $("#skillslist").append(HTMLskillsContainer);
-        for (var _i = 0, _a = b.skills; _i < _a.length; _i++) {
-            var s = _a[_i];
+        b.skills.forEach(function (s) {
             $("#skills:last").append(HTMLskills.replace("%data%", s));
-        }
+        });
         $("#skillsrow:last").append(HTMLskillsQuote);
         $("#skillsquote").append(HTMLgreeting.replace("%data%", b.welcomeMessage));
     };
     ResumePage.prototype.populateEducation = function () {
         // Loop over jobs
-        for (var s in this.resume.education.schools) {
-            var ss = this.resume.education.schools[s];
+        this.resume.education.schools.forEach(function (ss, s) {
             var id = "ed-" + s;
             $("#education:last").append(HTMLschoolStart);
             $(".education-entry:last").attr("id", id);
@@ -109,10 +107,9 @@ var ResumePage = (function () {
             $("#place-" + id).append(HTMLworkLocation.replace("%data%", ss.location));
             var majors = HTMLschoolMajor.replace("%data%", ss.majors.join(", "));
             $("#" + id + ":last").append("<div class=\"row\"><div class=\"col-md-12 work-description\">" + majors + "</div></div>");
-        }
+        });
         $("#education").append(HTMLonlineClasses);
-        for (var o in this.resume.education.onlineCourses) {
-            var os = this.resume.education.onlineCourses[o];
+        this.resume.education.onlineCourses.forEach(function (os, o) {
             var id = "online-" + o;
             $("#education:last").append(HTMLschoolStart);
             $(".education-entry:last").attr("id", id);
@@ -122,7 +119,7 @@ var ResumePage = (function () {
             $("#school-" + id + ":last").append(HTMLonlineSchool.replace("%data%", schoolclass));
             $("#school-" + id + ":last").append(HTMLonlineDates.replace("%data%", String(os.date)));
             $("#school-" + id + ":last").append(HTMLonlineURL.replace("%data%", os.url).replace("#", os.url));
-        }
+        });
     };
     /* The shim method is necessary because the specs do not allow a URL for
      * projects or employers. */
@@ -133,8 +130,7 @@ var ResumePage = (function () {
     };
     ResumePage.prototype.populateWork = function () {
         // Loop over jobs
-        for (var j in this.resume.work.jobs) {
-            var js = this.resume.work.jobs[j];
+        this.resume.work.jobs.forEach(function (js, j) {
             var id = "work-" + j;
             // Put master div
             $("#workExperience:last").append(HTMLworkStart);
@@ -151,13 +147,12 @@ var ResumePage = (function () {
             $("#place-" + id).append(HTMLworkLocation.replace("%data%", js.location));
             var desc = HTMLworkDescription.replace("%data%", js.description);
             $("#" + id + ":last").append("<div class=\"row\"><div class=\"col-md-12 work-description\">" + desc + "</div></div>");
-        }
+        });
         this.shim("Kelley", "http://www.kelleydrye.com/");
         this.shim("Flight", "http://www.sdfti.com/");
     };
     ResumePage.prototype.populateProjects = function () {
-        for (var p in this.resume.projects.projects) {
-            var ps = this.resume.projects.projects[p];
+        this.resume.projects.projects.forEach(function (ps, p) {
             var id = "project-" + p;
             // Put master div
             $("#projects:last").append(HTMLprojectStart);
@@ -171,7 +166,7 @@ var ResumePage = (function () {
                 var i = _a[_i];
                 $(".project-entry:last").append(HTMLprojectImage.replace("%data%", i));
             }
-        }
+        });
         this.shim("Catalog", "https://github.com/Ethan826/udacity-catalog");
         this.shim("Murder", "http://www.loumalnatis.com/");
     };
@@ -180,11 +175,13 @@ var ResumePage = (function () {
         $("#footerContacts").addClass("flex-container");
         var cs = this.resume.bio.contacts;
         for (var c in cs) {
-            var html = "<li class='flex-item'>" +
-                ("<span class=\"intro\">" + c + "</span>") +
-                ("<span class=\"info\">" + cs[c] + "</span>") +
-                "</li>";
-            $("#footerContacts").append(html);
+            if (cs.hasOwnProperty(c)) {
+                var html = "<li class='flex-item'>" +
+                    ("<span class=\"intro\">" + c + "</span>") +
+                    ("<span class=\"info\">" + cs[c] + "</span>") +
+                    "</li>";
+                $("#footerContacts").append(html);
+            }
         }
     };
     ResumePage.prototype.makeMapDiv = function () {
@@ -239,7 +236,6 @@ var GoogleMap = (function () {
         });
         this.pinPoster();
     }
-    ;
     GoogleMap.prototype.createMapMarker = function (placeData) {
         var marker = new google.maps.Marker({
             map: this.map,
@@ -268,7 +264,6 @@ var GoogleMap = (function () {
             });
         });
     };
-    ;
     return GoogleMap;
 })();
 // ==========================================================================//
