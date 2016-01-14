@@ -26,6 +26,12 @@ Notes
     surprise).
 -   I customized the CSS. Is not particularly beautiful, but it is
     completely different than the original.
+-   The design of the “JSON” object is a bit funky: you don’t pass in a
+    URL for jobs or for projects. The rubric is very clear that the
+    “JSON” object must follow the specifications exactly. As a result, I
+    wrote a shim function that fixes URLs in an ad hoc fashion. This is
+    a bad design, but the only way I can see to do it with the
+    limitation on the “JSON” object.
 
 [^1]: It’s not actually JSON. See
     (here)[http://stackoverflow.com/questions/2001449/is-it-valid-to-define-functions-in-json-results].
