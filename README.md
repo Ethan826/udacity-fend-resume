@@ -32,6 +32,8 @@ Notes
     wrote a shim function that fixes URLs in an ad hoc fashion. This is
     a bad design, but the only way I can see to do it with the
     limitation on the “JSON” object.
+* I refactored the hiding functionality into the `resumeBuilder` file, and have left reimplementing it as a TODO. The characteristics that code relies on have changed in my implementation. The rubric does not require this functionality.
+* I have not implemented the international name functionality, as it is not required in the rubric.
 
 [^1]: It’s not actually JSON. See
     [here](http://stackoverflow.com/questions/2001449/is-it-valid-to-define-functions-in-json-results).
