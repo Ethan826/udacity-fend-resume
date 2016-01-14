@@ -4,7 +4,7 @@ Udacity Resume project
 To run, clone the repository and launch `index.html` in your browser.
 
 Notes
-=====
+-----
 
 -   The JavaScript files are transpiled from TypeScript. The original
     TypeScript files are in the repository but are not used by the
@@ -14,7 +14,7 @@ Notes
     makes more sense to encapsulate the logic in a reusable class rather
     than reimplementing it in every resume “JSON” object. My
     implementation should meet the letter of the rubric. See also
-    (here)[https://discussions.udacity.com/t/encapsulation-question/43239/3].
+    [here](https://discussions.udacity.com/t/encapsulation-question/43239/3).
 -   The rubric does not actually require compliance with the styleguide.
     I departed from the single- versus double-quotes convention because
     you have to fight the TypeScript compiler to use the Udacity style.
@@ -34,4 +34,4 @@ Notes
     limitation on the “JSON” object.
 
 [^1]: It’s not actually JSON. See
-    (here)[http://stackoverflow.com/questions/2001449/is-it-valid-to-define-functions-in-json-results].
+    [here](http://stackoverflow.com/questions/2001449/is-it-valid-to-define-functions-in-json-results).
