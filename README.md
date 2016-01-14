@@ -18,10 +18,6 @@ Notes
 -   The rubric does not actually require compliance with the styleguide.
     I departed from the single- versus double-quotes convention because
     you have to fight the TypeScript compiler to use the Udacity style.
-    I also used for-in loops with arrays because I wanted to use the
-    index to set the ids for divs dynamically. In retrospect I realize
-    that the `.forEach` method on arrays does give you access to the
-    index. I will refactor that in the future.
 -   I implemented the extra-credit interactivity in a slightly silly
     way: click on my name three times within a second for a warning, and
     do it again to make the page self-destruct (and do a little
