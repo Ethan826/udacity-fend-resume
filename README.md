@@ -26,7 +26,7 @@ Notes
     way: click on my name three times within a second for a warning, and
     do it again to make the page self-destruct (and do a little
     surprise).
--   I customized the CSS. Is not particularly beautiful, but it is
+-   I customized the CSS. It is not particularly beautiful, but it is
     completely different than the original.
 -   The design of the “JSON” object is a bit funky: you don’t pass in a
     URL for jobs or for projects. The rubric is very clear that the
