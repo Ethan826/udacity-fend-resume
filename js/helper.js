@@ -5,7 +5,7 @@ var HTMLnameRole = "<div class='column col-md-6' id='namerole'></div>";
 var HTMLpicture = "<div class='column col-md-6' id='picture'>";
 var HTMLcontactGeneric = '<li class="flex-item"><span class="intro">%contact%</span><span class="info">%data%</span></li>';
 var HTMLcontacts = "<div class='row' id='contacts'></div>";
-var HTMLcontactsList = "<li class='flex-container' id='contactslist'></li>";
+var HTMLcontactsList = "<ul class='flex-container' id='contactslist'></ul>";
 var HTMLmobile = '<li class="flex-item"><span class="intro">mobile</span><span class="info">%data%</span></li>';
 var HTMLemail = '<li class="flex-item"><span class="intro">email</span><span class="info">%data%</span></li>';
 var HTMLtwitter = '<li class="flex-item"><span class="intro">twitter</span><span class="info">%data%</span></li>';

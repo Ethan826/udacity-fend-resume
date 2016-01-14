@@ -88,6 +88,56 @@ class ResumePage {
     constructor(private resume: Resume) {
         this.populatePage();
         this.mapBuilder();
+        this.selfDestruct();
+    }
+
+
+    /* Additional JavaScript for extra credit. This function checks for a 
+     * quick triple-click on my name. The first time it alerts, the second
+     * time it destroys the page and Rick rolls the user. */
+    private selfDestruct(): void {
+        let clickTimes = [];
+        let warned = false;
+        let WARNING = "That's my name. Please don't wear it out.";
+        // Bind this to a variable to avoid scope problems later
+        let self = this;
+        $("#name").click(function() {
+            let len = clickTimes.push(Date.now());
+            if (len > 2) {
+                let time = clickTimes[2] - clickTimes[0];
+                clickTimes.shift();
+                // Check if three clicks in one second
+                if (time < 1000) {
+                    if (warned) {
+                        self.killDom();
+                    } else {
+                        alert(WARNING);
+                        warned = true;
+                    }
+                }
+            }
+        });
+    }
+
+    private killDom(): void {
+        // Page disappears in 3 seconds
+        let delay = 3000;
+        // Randomize the animation
+        let visuals = ["fadeOut", "slideUp"];
+        let getVisual = function(): string {
+            return visuals[Math.floor(Math.random() * visuals.length)];
+        };
+        // Set animations on all sections. Programatic way?
+        $("#header")[getVisual()](delay, () => $(this).remove());
+        $("#workExperience")[getVisual()](delay, () => $(this).remove());
+        $("#projects")[getVisual()](delay, () => $(this).remove());
+        $("#education")[getVisual()](delay, () => $(this).remove());
+        $("#mapDiv")[getVisual()](delay, () => $(this).remove());
+        $("#lets-connect")[getVisual()](delay, function() {
+            $(this).remove();
+            // Rick roll needs to be in callback for blocking
+            window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        });
     }
 
     private populateBio(): void {
@@ -131,6 +181,7 @@ class ResumePage {
             $(".education-entry:last").attr("id", id);
             $(`#${id}`).append(`<div class='row'><div class='col-md-12' id='school-${id}'></div></div>`);
             let txt = HTMLschoolName.replace("%data%", ss.name) + HTMLschoolDegree.replace("%data%", ss.degree);
+            txt = txt.replace("#", ss.url);
             $(`#school-${id}`).append(txt);
             // Add year / location row and insert text
             $(`#${id}:last`).append(`<div class="row" id="place-date-${id}">\
@@ -151,10 +202,19 @@ class ResumePage {
             $(".education-entry:last").attr("id", id);
             $(`#${id}`).append(`<div class='row'><div class='col-md-12' id='school-${id}'></div></div>`);
             let schoolclass = HTMLonlineTitle.replace("%data%", os.school) + HTMLonlineSchool.replace("%data%", os.title);
+            schoolclass = schoolclass.replace("#", os.url);
             $(`#school-${id}:last`).append(HTMLonlineSchool.replace("%data%", schoolclass));
             $(`#school-${id}:last`).append(HTMLonlineDates.replace("%data%", String(os.date)));
-            $(`#school-${id}:last`).append(HTMLonlineURL.replace("%data%", os.url));
+            $(`#school-${id}:last`).append(HTMLonlineURL.replace("%data%", os.url).replace("#", os.url));
         }
+    }
+
+    /* The shim method is necessary because the specs do not allow a URL for
+     * projects or employers. */
+    private shim(text: string, html: string): void {
+        let selector = $(`div:contains(${text})`);
+        let replacement = selector.html().replace("#", html);
+        selector.html(replacement);
     }
 
 
@@ -180,6 +240,8 @@ class ResumePage {
             let desc = HTMLworkDescription.replace("%data%", js.description);
             $(`#${id}:last`).append(`<div class="row"><div class="col-md-12 work-description">${desc}</div></div>`);
         }
+        this.shim("Kelley", "http://www.kelleydrye.com/");
+        this.shim("Flight", "http://www.sdfti.com/");
     }
 
     private populateProjects(): void {
@@ -198,6 +260,8 @@ class ResumePage {
                 $(".project-entry:last").append(HTMLprojectImage.replace("%data%", i));
             }
         }
+        this.shim("Catalog", "https://github.com/Ethan826/udacity-catalog");
+        this.shim("Murder", "http://www.loumalnatis.com/");
     }
 
     private populateFooter(): void {
@@ -275,7 +339,7 @@ class GoogleMap {
         this.pinPoster();
     };
 
-    private createMapMarker(placeData: google.maps.GeocoderResult): void {
+    private createMapMarker(placeData: google.maps.places.PlaceResult): void {
         let marker = new google.maps.Marker({
             map: this.map,
             position: placeData.geometry.location,
@@ -362,6 +426,7 @@ let education = {
 };
 
 let work = {
+    // The instructions don't allow me to put a website here, so I have to shim the class
     "jobs": [{
         "employer": "Kelley Drye & Warren LLP",
         "title": "Associate Attorney",
@@ -369,12 +434,12 @@ let work = {
         "dates": "2015-Present",
         "description": "Mid-level litigation associate at large national law firm."
     }, {
-        "employer": "San Diego Flight Training, Int'l",
-        "title": "Flight Instructor",
-        "location": "San Diego",
-        "dates": "2004-2006",
-        "description": "Trained students to fly small airplanes."
-    }],
+            "employer": "San Diego Flight Training, Int'l",
+            "title": "Flight Instructor",
+            "location": "San Diego",
+            "dates": "2004-2006",
+            "description": "Trained students to fly small airplanes."
+        }],
     "display": this.populateWork
 };
 
@@ -383,13 +448,15 @@ let projects = {
         "title": "Udacity Catalog App",
         "dates": "2015",
         "description": "Flask app using a Postgresql backend.",
-        "images": ["foo", "bar"]
+        "images": ["http://www.drinkspirits.com/wp-content/uploads/2010/10/Hip_Flask.jpg",
+            "http://ecx.images-amazon.com/images/I/61PZhV4QjRL._SL1500_.jpg"]
     }, {
-        "title": "Murder for Hire Outfit",
-        "dates": "1929",
-        "description": "Worked as enforcer for Al Capone.",
-        "images": ["baz", "quux"]
-    }],
+            "title": "Murder for Hire Outfit",
+            "dates": "1929",
+            "description": "Worked as enforcer for Al Capone.",
+            "images": ["https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Al_Capone_in_1930.jpg/800px-Al_Capone_in_1930.jpg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Hoover-JEdgar-LOC.jpg/800px-Hoover-JEdgar-LOC.jpg"]
+        }],
     "display": this.populateProjects
 };
 

@@ -55,15 +55,21 @@
 
 #education {
     padding-top: 1em; 
-    padding-bottom: 3em;
+    padding-bottom: 0;
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
+}
+
+.education-entry {
+    margin-bottom: 2em;
 }
 
 .flex-container {
     display: -webkit-flex;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .flex-container > .flex-item {
@@ -108,6 +114,11 @@
 
 .work-description {
     padding-bottom: 2em;
+}
+
+img {
+    max-width: 25%;
+    max-height: 500px;
 }
 
 @media only screen and (max-width: 1000px) {
